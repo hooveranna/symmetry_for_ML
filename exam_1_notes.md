@@ -14,6 +14,9 @@
 - vectors $v,u$ are orthogonal if $\langle v | u \rangle = 0$ 
 - **orthogonal compliment** of $W$ 
 
+#### Groups
+
+
 #### Subgroups
 - each group $G$ has at least 2 subgroups, one that's just $I$ and one that's all elements in $G$.
 - if $|G|=n$, all subgroups have number of elements equal to the factors of $n$
@@ -23,7 +26,7 @@
 - associative
 - has an identity row/column
 - closed (all vals in table $<n$)
-- 
+- create group $G$ from subset of elements ($g,h$) by calculating $gh$ until you run out
 #### Coset
 If $g\in G$ are all elements in the group $G$, and $h\in H$ are all elements in the subgroup $H$ of $G$, then the "left coset of H" is $GH$, or all elements in $G$ multiplied by all elements in $H$. 
 
@@ -32,7 +35,7 @@ $a,b\in G$ are "conjugate" if, for some $X\in G$, $b=XaX^{-1}$. all together mak
 if you map $a$ using $x$, you get $b$. \
 In code, find inverses of all $g \in G$, then loop through all $h\in G, G[i]=h$. then for each $f\in G, G[j]=f$, append `table[j][table[i][inv[j]]]` 
 
-#### Self-conjugate subgroups
+#### Self-conjugate (normal) subgroups
 a self-conjugate subgroup $H$ of $G$ is a subgroup of $G$ where $\forall h \in H, H[i]=h$, $G[j][G[i][\text{inv}[j]]] \in H$  \
 A subgroup $H$ is self-conjugate (normal) if $gHg^{-1} = H$ for all $g \in G$ 
 
@@ -98,11 +101,16 @@ So if I `infer_change_of_basis(D,D)` returns $Q$ that are all constant matrices 
 
 
 #### Regular Representation
-regular rep $R$ of group $G$ is $R^{n\times n\times n}$ if $|G|=n$ 
+regular rep $R$ of group $G$ is $R^{n\times n\times n}$ if $|G|=n$ \
+$R^{\text{reg}}(g) |h\rangle = |gh\rangle$ where $g,h\in G$ "left reg rep"\
+Each irrep $\Gamma_j$ appears exactly $\ell_j$ times when decomposing $R^{\text{reg}}$ where $|\Gamma_j|=\ell_j$
+TODO: code implementation of this
+
+
 
 If I can, I should try to summarize the strategy I took for each homework function in as short as possible language (knowing I'll be able to see the docstrings)
 
-special types of matrices
+#### Special types of matrices
 
 | Type| Condition | Key Property|
 | ----------------- | --------- | --- |
@@ -116,3 +124,36 @@ Row space: $Mx \neq 0$, dim $r$, conjugated rows of $M$
 Nullspace: $Mx = 0$, dim $n-r$, orthogonal compliment of row space
 Column space: $M^{\dagger}x=0$ dim $r$
 Left nullspace: $M^{\dagger}y=0$ dim $m-r$
+
+
+### Guidelines from course
+#### For Sure
+- Understand definitions:
+	- group, subgroup, self-conjugate (normal) subgroup, order of a group, conjugacy classes, left coset, right coset, isomorphism between two groups, homomorphism between two groups, abelian vs. non-abelian groups (Lectures 2-3)
+	- group representation (matrices + vector space), reducible representation, irreducible representation, (left and right) regular representation of a finite group, character of a representation
+- Understand results of Lemmas and Theorems proved / shown in class:
+	- Rearrangement Theorem
+	- Lagrange's Theorem
+	- Schur's Lemma
+	- The Wonderful Orthogonality Theorem for Representations
+	- The Wonderful Orthogonality Theorem for Character
+- Know when to use and how to interpret outputs of the functions you've coded in exercises from the symm4ml class repository
+	- First exercise: groups module
+	- Second and third exercises: functions from linalg and rep modules
+	- Fourth exercise: vib_modes module
+- Understand and be able to use the general procedure for finding vibrational modes.
+
+#### Maybe
+- Generate a group from a subset of elements (done)
+- Difference between abelian vs. non-abelian groups, and classifying group based on multiplication table
+- Making, completing, and identifying errors in multiplication and character tables
+- Use results of Lemmas and Theorems to classify nature of representations
+- Interpret the output of the functions you have coded in the first 4 exercises in this course (groups, linalg, rep, vib_modes)
+- Construct the Left and Right Regular Representations from the multiplication table of a group
+- Decompose representation into irreps of a given group given characters of the representation.
+- Use the Wonderful Orthogonality Theorem for Character and basic facts of representations to complete an incomplete character table.
+- Compute the irreps of possible vibrational modes "by hand" if given a character table and a (simple) set of points that have the symmetry of that character table.
+- Identify possible irreps that could lower the symmetry of a system from a group to a given subgroup.
+- Given a step in a proof, identify what property of groups / representations or lemma / theorem is being used to e.g. equate the left and right hand sides of an equation.
+- Use of np.einsum, broadcasting, and reshape to translate equations into code.
+	- There are exercises for np.einsum and Broadcasting here under the 2. Einsum and 3. Broadcasting headings, respectively.
