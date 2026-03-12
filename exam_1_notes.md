@@ -15,18 +15,19 @@
 - **orthogonal compliment** of $W$ 
 
 #### Groups
-
+Set of elements $G=\{g_0,...,g_n\}$\
+Order of $G$ is $n$\
+One $g\in G$ is identity\
+$\forall g_i,g_j,g_k\in G, g_ig_j\in G, g_i(g_jg_k)=(g_ig_j)g_k, \exists g_i^{-1}$\
+closed (all vals in multi table $<n$)\
+create group $G$ from subset of elements ($g,h$) by calculating $gh$ until you run out
 
 #### Subgroups
 - each group $G$ has at least 2 subgroups, one that's just $I$ and one that's all elements in $G$.
 - if $|G|=n$, all subgroups have number of elements equal to the factors of $n$
 - find subgroups by iterating through all options of factor length, trim multiplication table to match, check if it's a valid group
+- all subgroups have $I$ in them
 
-#### Rules for a group
-- associative
-- has an identity row/column
-- closed (all vals in table $<n$)
-- create group $G$ from subset of elements ($g,h$) by calculating $gh$ until you run out
 #### Coset
 If $g\in G$ are all elements in the group $G$, and $h\in H$ are all elements in the subgroup $H$ of $G$, then the "left coset of H" is $GH$, or all elements in $G$ multiplied by all elements in $H$. 
 
@@ -91,12 +92,15 @@ Two reps $D,R$ are isomorphic if $\exists Q$ that satisfies similarity transform
 - Tables: relabel the columns/rows, get a 'mapping'
 - Reps: chainging the basis of rep, get a 'change of basis matrix
 
+#### Homomorphism
+$\rho(g_i)\rho(g_j)=rho(g_ig_j)$ or $\text{rep}(g_i)\text{rep}(g_j)=\text{rep}(G(i,j))$
+
 #### Direct Sum
 Direct sum of two reps $D,R$, or $D \oplus R = \begin{bmatrix} D & 0 \\ 0 & R \end{bmatrix}$ which is block diagonal. using `np.block()`
 
 #### Irreducible Representation of a Group
-rep $D$ of $G$ is irreducible if $\nexists U$ unitary matrix such that $U D U^{-1}$ is block diagonal for all $d \in D$. Check this by finding $Q$ in $dQ=Qd$ for all $d\in D$  
-
+rep $D$ of $G$ is irreducible if $\nexists U$ unitary matrix such that $U d U^{-1}$ is block diagonal for all $d \in D$. Check this by finding $Q$ in $dQ=Qd$ for all $d\in D$. $|D|=n$, and $D_i^{\ell \times \ell}$\
+Sum of all dim of all irreps for $G$ is $n$, or $\sum_{i=0}^{\text{num irreps}}\ell_i^2=n$\
 So if I `infer_change_of_basis(D,D)` returns $Q$ that are all constant matrices ($Q=I*k$ where $k$ is scalar), $D$ is an irrep.  
 
 
