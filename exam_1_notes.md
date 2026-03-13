@@ -20,16 +20,17 @@ Order of $G$ is $n$\
 One $g\in G$ is identity\
 $\forall g_i,g_j,g_k\in G, g_ig_j\in G, g_i(g_jg_k)=(g_ig_j)g_k, \exists g_i^{-1}$\
 closed (all vals in multi table $<n$)\
-create group $G$ from subset of elements ($g,h$) by calculating $gh$ until you run out
+create group $G$ from subset of elements ($g,h$) by calculating $gh$ until you run out\
+**abelian group:** multiplication table is symmetric ($M_{ab}=M_{ba}$)
 
 #### Subgroups
-- each group $G$ has at least 2 subgroups, one that's just $I$ and one that's all elements in $G$.
-- if $|G|=n$, all subgroups have number of elements equal to the factors of $n$
-- find subgroups by iterating through all options of factor length, trim multiplication table to match, check if it's a valid group
-- all subgroups have $I$ in them
+subset of elements in $G$ that form their own group. all have identity $I$\
+each group $G$ has at least 2 subgroups, one that's just $I$ and one that's all elements in $G$.\
+if $|G|=n$, all subgroups have number of elements equal to the factors of $n$\
+find subgroups by iterating through all options of factor length, trim multiplication table to match, check if it's a valid group\
 
 #### Coset
-If $g\in G$ are all elements in the group $G$, and $h\in H$ are all elements in the subgroup $H$ of $G$, then the "left coset of H" is $GH$, or all elements in $G$ multiplied by all elements in $H$. 
+If $g\in G$ are all elements in the group $G$, and $h\in H$ are all elements in the subgroup $H$ of $G$, then the "left coset of H" is $GH$, or all elements in $G$ multiplied by all elements in $H$. The right coset is just $HG$. 
 
 #### Conjugacy class
 $a,b\in G$ are "conjugate" if, for some $X\in G$, $b=XaX^{-1}$. all together make a "conjugacy class". Identity $E$ always in conjugacy class by itself \
@@ -37,8 +38,8 @@ if you map $a$ using $x$, you get $b$. \
 In code, find inverses of all $g \in G$, then loop through all $h\in G, G[i]=h$. then for each $f\in G, G[j]=f$, append `table[j][table[i][inv[j]]]` 
 
 #### Self-conjugate (normal) subgroups
-a self-conjugate subgroup $H$ of $G$ is a subgroup of $G$ where $\forall h \in H, H[i]=h$, $G[j][G[i][\text{inv}[j]]] \in H$  \
-A subgroup $H$ is self-conjugate (normal) if $gHg^{-1} = H$ for all $g \in G$ 
+a self-conjugate subgroup $H$ of $G$ is a subgroup of $G$ where $\forall h \in H, H[i]=h$, $G_{j,m}\in H$ where $m=G_{i,j^{-1}}$ TODO HERE \
+A subgroup $H$ is self-conjugate (normal) if $ghg^{-1} = h$ for all $g \in G$, $h\in H$
 
 #### Factor group
 The factor group $G/H$ treats each coset of $H$ as a single element. 
@@ -78,7 +79,7 @@ $((S\otimes I_n)-(I_m \otimes R^T))\text{vec}(Q) =0$ since $R_{\ell k} = (R^T)_{
 $(S\otimes I_n)-(I_m \otimes R^T) = P^{mn \times mn}$  \
 Find nullspace of $P$, giving vectors of length $mn$\
 reshape to get $Q^{m\times n}$ \
-If $S,R$ lists of matrices, find $P$ for every combo of $S,R$, then stack vertically to get big $P$ then get nullspace
+If $S,R$ lists of matrices, find $P$ for every combo of $S,R$, then stack vertically to get big $P$ then get nullspace (coded in `infer_change_of_basis`)
 
 
 #### Representations of groups
@@ -87,10 +88,11 @@ $D$ is a representation of $G$ if, $\forall i,j \in [0,n], D[i] \cdot D[j] = D[G
 
 #### Isomorphic
 Two reps $D,R$ are isomorphic if $\exists Q$ that satisfies similarity transform $DQ=QR$, or if `len(infer_change_of_basis(D,R))`>0\
-**groups** might be isomorphic to each other if there's the same number of elements in each 'order'
-
-- Tables: relabel the columns/rows, get a 'mapping'
-- Reps: chainging the basis of rep, get a 'change of basis matrix
+**groups** might be isomorphic to each other if there's the same number of elements in each 'order'. **Are** isomorphic if a reordering of $g\in G$ results in $H$'s multiplication table. \
+**isomorphisms** between groups are that mappings, so $g_1\rarr h_4,...$ for all $g,h$\
+**homomorphism** maps all values in $G$ to smaller set of values in $H$, so $g_1\rarr h_4, g_3\rarr h_4$\
+Tables: relabel the columns/rows, get a 'mapping'\
+Reps: chainging the basis of rep, get a 'change of basis matrix
 
 #### Homomorphism
 $\rho(g_i)\rho(g_j)=rho(g_ig_j)$ or $\text{rep}(g_i)\text{rep}(g_j)=\text{rep}(G(i,j))$
@@ -106,11 +108,47 @@ So if I `infer_change_of_basis(D,D)` returns $Q$ that are all constant matrices 
 
 #### Regular Representation
 regular rep $R$ of group $G$ is $R^{n\times n\times n}$ if $|G|=n$ \
-$R^{\text{reg}}(g) |h\rangle = |gh\rangle$ where $g,h\in G$ "left reg rep"\
-Each irrep $\Gamma_j$ appears exactly $\ell_j$ times when decomposing $R^{\text{reg}}$ where $|\Gamma_j|=\ell_j$
-TODO: code implementation of this
+$R^{\text{reg}}(g) |h\rangle \rarr |gh\rangle$ where $g,h\in G$ "left reg rep"\
+Each irrep $\Gamma_j$ appears exactly $\ell_j$ times when decomposing $R^{\text{reg}}$ where $|\Gamma_j|=\ell_j$\
+$R(g_i)_j =$ row of length $n$ that's all 0 except for value at $G_{i,j}$ which is 1.\
+$(R_i)_j \rightarrow G_{ij}$, where $(R_i)_j$ is vec of zeros of length $n$, and $G_{ij}$ indicates which in $(R_i)_j$ is 1.\
+If you get irreps from regular rep, make sure to check for duplicate irreps (2 irreps isomorphic=same irrep)
 
 
+#### Wonderful Orthogonality Theorem (WOT)
+(arrow going through squares of matrices for irreps)\
+$\sum_{i=0}^n (\Gamma_a(g_i))_{\mu\nu} (\Gamma_b(g_i^{-1}))_{\mu'\nu'} = \frac{n}{\ell_a}\delta_{\Gamma_a\Gamma_b}\delta_{\mu\mu'}\delta_{\nu\nu'}$ ($=\sum_{i=0}^n (\Gamma_a(g_i))_{\mu\nu} \left[(\Gamma_b(g_i))_{\mu'\nu'}\right]^*$ if $\Gamma$ unitary)\
+$\ell_a=|\Gamma_a(g_i)|$\
+all $(\mu,\nu)$ coordinates in matrices in irrep $\Gamma_a$ make a vector, which is orthogonal to the same vector in $\Gamma_b$ as long as $a\neq b$
+
+#### Characters / Character Table
+$\chi^{(\Gamma_a)}(g_i) = \text{tr}\left(\Gamma_a(g_i)\right)$, so each rep's matrices get one scalar character per $g\in G$. \
+If $g_i, g_j$ in the same conjugacy class, or for some $X\in G$, $b=XaX^{-1}$, then $\chi^{(\Gamma_a)}(g_i)=\chi^{(\Gamma_a)}(g_k)$ since $\text{tr}(\Gamma_a(g_i))=\text{tr}\left(\Gamma_a(x) \Gamma_a(g_k) \Gamma_a(x)^{-1}\right)=\text{tr}\left(\Gamma_a(x)^{-1}\Gamma_a(x) \Gamma_a(b) \right)=\text{tr}(\Gamma_a(b))$\
+Same num conjugacy classes as irreps\
+if $B=\{b_1,b_2,b_3,...b_m\}$ is list of conjugacy classes in $G$, and $g_{b_ij}$ = $j$'th group element in conjugacy class $b_i$, then
+| | $(1)$ $b_1$ | $(3)$ $b_2$ | $(w)$ $b_3$ |
+|---|---|---|---|
+| $\Gamma_1$ | $\chi^{(\Gamma_1)}(g_{b_1})$ | $\chi^{(\Gamma_1)}(g_{b_2})$ | $\chi^{(\Gamma_1)}(g_{b_3})$ |
+| $\Gamma_2$ | $\chi^{(\Gamma_2)}(g_{b_1})$ | $\chi^{(\Gamma_2)}(g_{b_2})$ | $\chi^{(\Gamma_2)}(g_{b_3})$ |
+
+where $w=|b_3|$ num elements in conjugacy class $b_3$\
+Each row/column must be orthogonal to each other by WOT for characters
+
+#### WOT for Characters
+**only** true for irreps (can be used to test irrep) \
+$\sum_{i=0}^n \chi^{(\Gamma_a)}(g_i) \chi^{(\Gamma_b)}(g_i^{-1})=n\delta_{\Gamma_a,\Gamma_b}=\sum_{i=0}^n \chi^{(\Gamma_a)}(g_i) \left[\chi^{(\Gamma_b)}(g_i)\right]^*=\sum_{j=0}^m N_j \chi^{\Gamma_a}(g_{b_j})\left[\chi^{\Gamma_b}(g_{b_j})\right]^*$ where $N_j=|b_j|$ \
+$g_{b_j}=$ any element $g\in b_j$
+
+#### Decompose rep into irreps
+any rep can be decomposed into irreps: $\chi^{}$ \
+Num times irrep $\Gamma_a$ appears in representation $D$ with character $\chi^{(D)}$ is:\
+$a_a = \frac{1}{n}\sum_{j=0}^m N_j \left[\chi^{(\Gamma_a)}(g_{b_j})\right]^* \chi^{(D)}(g_{b_j}) =  \frac{1}{n}\sum_{i=0}^n \left[\chi^{(\Gamma_a)}(g_{i})\right]^* \chi^{(D)}(g_i)$
+
+Number of irreps = number of conjugacy classes
+
+pseudoscalar= character is 1 except for mirror conjugacy class where it's -1
+
+pseudovector = 
 
 If I can, I should try to summarize the strategy I took for each homework function in as short as possible language (knowing I'll be able to see the docstrings)
 
