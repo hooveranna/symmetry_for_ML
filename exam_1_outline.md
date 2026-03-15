@@ -2,13 +2,13 @@
 #### For Sure
 - Understand definitions:
 	- ~~group~~, ~~subgroup~~, self-conjugate (normal) subgroup, ~~order of a group~~, ~~conjugacy classes~~, ~~left coset~~, ~~right coset~~, ~~isomorphism between two groups~~, ~~homomorphism between two groups~~, ~~abelian vs. non-abelian groups (Lectures 2-3)~~
-	- group representation (matrices + vector space), reducible representation, irreducible representation, (left and right) regular representation of a finite group, character of a representation
+	- group representation (matrices + vector space), ~~reducible representation~~, ~~irreducible representation~~, ~~(left and right) regular representation of a finite group~~, ~~character of a representation~~
 - Understand results of Lemmas and Theorems proved / shown in class:
 	- Rearrangement Theorem
 	- Lagrange's Theorem
 	- Schur's Lemma
-	- The Wonderful Orthogonality Theorem for Representations
-	- The Wonderful Orthogonality Theorem for Character
+	- ~~The Wonderful Orthogonality Theorem for Representations~~
+	- ~~The Wonderful Orthogonality Theorem for Character~~
 - Know when to use and how to interpret outputs of the functions you've coded in exercises from the symm4ml class repository
 	- First exercise: groups module
 	- Second and third exercises: functions from linalg and rep modules

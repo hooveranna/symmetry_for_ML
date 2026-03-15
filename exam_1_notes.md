@@ -8,7 +8,6 @@
 	- $U^{-1}=U^{\dagger}$ 
 - full rank matrices
 - rearrangement theorem: each row/column of multiplication table must contain each element once (sudoku table rules)
-- inverse of element in group is just location of Identity element in multiplication table
 - matrix multiplication
 - isomorphic definition (and how to check)
 - vectors $v,u$ are orthogonal if $\langle v | u \rangle = 0$ 
@@ -35,7 +34,8 @@ If $g\in G$ are all elements in the group $G$, and $h\in H$ are all elements in 
 #### Conjugacy class
 $a,b\in G$ are "conjugate" if, for some $X\in G$, $b=XaX^{-1}$. all together make a "conjugacy class". Identity $E$ always in conjugacy class by itself \
 if you map $a$ using $x$, you get $b$. \
-In code, find inverses of all $g \in G$, then loop through all $h\in G, G[i]=h$. then for each $f\in G, G[j]=f$, append `table[j][table[i][inv[j]]]` 
+In code, find inverses of all $g \in G$, then loop through all $h\in G, G[i]=h$. then for each $f\in G, G[j]=f$, append `table[j][table[i][inv[j]]]` \
+inverse of element in group is just location of Identity element in multiplication table
 
 #### Self-conjugate (normal) subgroups
 a self-conjugate subgroup $H$ of $G$ is a subgroup of $G$ where $\forall h \in H, H[i]=h$, $G_{j,m}\in H$ where $m=G_{i,j^{-1}}$ TODO HERE \
@@ -110,10 +110,11 @@ So if I `infer_change_of_basis(D,D)` returns $Q$ that are all constant matrices 
 regular rep $R$ of group $G$ is $R^{n\times n\times n}$ if $|G|=n$ \
 $R^{\text{reg}}(g) |h\rangle \rarr |gh\rangle$ where $g,h\in G$ "left reg rep"\
 Each irrep $\Gamma_j$ appears exactly $\ell_j$ times when decomposing $R^{\text{reg}}$ where $|\Gamma_j|=\ell_j$\
-$R(g_i)_j =$ row of length $n$ that's all 0 except for value at $G_{i,j}$ which is 1.\
-$(R_i)_j \rightarrow G_{ij}$, where $(R_i)_j$ is vec of zeros of length $n$, and $G_{ij}$ indicates which in $(R_i)_j$ is 1.\
-If you get irreps from regular rep, make sure to check for duplicate irreps (2 irreps isomorphic=same irrep)
-
+To make $R$ from $G$'s mult table $T$, first $T$ must be reordered so identity $g_i^{-1}$ is along diagonal\
+$R(g_i)_j =$ row of length $n$ that's all 0 except for value at $T_{i,j}$ which is 1.\
+$(R_i)_j \rightarrow G_{ij}$, where $(R_i)_j$ is vec of zeros of length $n$, and $T_{ij}$ indicates which in $(R_i)_j$ is 1.\
+If you get irreps from regular rep, make sure to check for duplicate irreps (2 irreps isomorphic=same irrep)\
+for $g_i\neq E$, $\chi^{R_{\text{reg}}}(g_i)=0$. $R(E)=I_n$, so $\chi^R(E)=n$
 
 #### Wonderful Orthogonality Theorem (WOT)
 (arrow going through squares of matrices for irreps)\
@@ -130,25 +131,28 @@ if $B=\{b_1,b_2,b_3,...b_m\}$ is list of conjugacy classes in $G$, and $g_{b_ij}
 |---|---|---|---|
 | $\Gamma_1$ | $\chi^{(\Gamma_1)}(g_{b_1})$ | $\chi^{(\Gamma_1)}(g_{b_2})$ | $\chi^{(\Gamma_1)}(g_{b_3})$ |
 | $\Gamma_2$ | $\chi^{(\Gamma_2)}(g_{b_1})$ | $\chi^{(\Gamma_2)}(g_{b_2})$ | $\chi^{(\Gamma_2)}(g_{b_3})$ |
+| $\Gamma_3$ | $\chi^{(\Gamma_3)}(g_{b_1})$ | $\chi^{(\Gamma_3)}(g_{b_2})$ | $\chi^{(\Gamma_3)}(g_{b_3})$ |
 
 where $w=|b_3|$ num elements in conjugacy class $b_3$\
-Each row/column must be orthogonal to each other by WOT for characters
+Each row/column must be orthogonal to each other by WOT for characters (1 and 2 respectively)\
+$\Gamma_1$ "trivial" or "scalar" rep, and $\chi^{(\Gamma_1)}(g_{b_i})=1$\
+$b_1=I$, so $\chi^{(\Gamma_j)}(g_{b_1})=$ dimension of irrep\
+**Pseudoscalar** irrep that = $\Gamma^{\text{scalar/trivial}}$ except for mirror conjugacy classes ($\sigma$), where character is negative \
+**Pseudovector** = $\Gamma^{\text{pseudov}}$ irrep that takes $\Gamma^{\text{vec}}(-1*I)$
 
 #### WOT for Characters
 **only** true for irreps (can be used to test irrep) \
 $\sum_{i=0}^n \chi^{(\Gamma_a)}(g_i) \chi^{(\Gamma_b)}(g_i^{-1})=n\delta_{\Gamma_a,\Gamma_b}=\sum_{i=0}^n \chi^{(\Gamma_a)}(g_i) \left[\chi^{(\Gamma_b)}(g_i)\right]^*=\sum_{j=0}^m N_j \chi^{\Gamma_a}(g_{b_j})\left[\chi^{\Gamma_b}(g_{b_j})\right]^*$ where $N_j=|b_j|$ \
-$g_{b_j}=$ any element $g\in b_j$
+$g_{b_j}=$ any element $g\in b_j$\
+2 is $\sum_{i=0}^p N_a \chi^{\Gamma_i}(g_{b_a})\left[\chi^{\Gamma_i}(g_{b_b})\right]^* = n \delta_{ab}$ (column of char table must be orthogonal), $p=$ number of irreps for $G$.
 
-#### Decompose rep into irreps
-any rep can be decomposed into irreps: $\chi^{}$ \
+#### Decompose rep into irreps/Decomposition Formula
+any rep can be decomposed into irreps\
 Num times irrep $\Gamma_a$ appears in representation $D$ with character $\chi^{(D)}$ is:\
-$a_a = \frac{1}{n}\sum_{j=0}^m N_j \left[\chi^{(\Gamma_a)}(g_{b_j})\right]^* \chi^{(D)}(g_{b_j}) =  \frac{1}{n}\sum_{i=0}^n \left[\chi^{(\Gamma_a)}(g_{i})\right]^* \chi^{(D)}(g_i)$
+$a_a = \frac{1}{n}\sum_{j=0}^m N_j \left[\chi^{(\Gamma_a)}(g_{b_j})\right]^* \chi^{(D)}(g_{b_j}) =  \frac{1}{n}\sum_{i=0}^n \left[\chi^{(\Gamma_a)}(g_{i})\right]^* \chi^{(D)}(g_i)$\
+
 
 Number of irreps = number of conjugacy classes
-
-pseudoscalar= character is 1 except for mirror conjugacy class where it's -1
-
-pseudovector = 
 
 If I can, I should try to summarize the strategy I took for each homework function in as short as possible language (knowing I'll be able to see the docstrings)
 
