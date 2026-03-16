@@ -1,41 +1,42 @@
 - Hermitian matrices
-- Wonderful Orthogonality Theorem
 - properties of Unitary matrices
-	- $U^{\dagger}U = UU^{\dagger} = I$
+	- $U^{\dagger}U = UU^{\dagger} = cI$ constant matrix w scalar $c$
 	- $\langle U x | U y \rangle = \langle x | y \rangle$
 	- Diagonalizable, or $\exists V, U=VDV^{\dagger}$ where $V$ is Unitary and $D$ is both diagonal and unitary
 	- Eigenspaces of $U$ are orthogonal
-	- $U^{-1}=U^{\dagger}$ 
+	- $U^{-1}=U^{\dagger}=[U^*]^T$ 
 - full rank matrices
-- rearrangement theorem: each row/column of multiplication table must contain each element once (sudoku table rules)
 - matrix multiplication
-- isomorphic definition (and how to check)
 - vectors $v,u$ are orthogonal if $\langle v | u \rangle = 0$ 
 - **orthogonal compliment** of $W$ 
 
 #### Groups
 Set of elements $G=\{g_0,...,g_n\}$\
-Order of $G$ is $n$\
-One $g\in G$ is identity\
+Order of $G$ is $n$ ***|*** One $g\in G$ is identity $E$ or $I$\
 $\forall g_i,g_j,g_k\in G, g_ig_j\in G, g_i(g_jg_k)=(g_ig_j)g_k, \exists g_i^{-1}$\
 closed (all vals in multi table $<n$)\
 create group $G$ from subset of elements ($g,h$) by calculating $gh$ until you run out\
-**abelian group:** multiplication table is symmetric ($M_{ab}=M_{ba}$)
+rearrangement theorem: each row/column of multi table contains each element once (sudoku table rules). \
+Proof: if $g_i=g_j^{-1} X$, then $g_j g_i=g_j g_j^{-1} X=X$ (all $g$ contained). If $X=g_j g_i=g_j g_k$ then $g_j^{-1}g_j g_i=g_j^{-1}g_k$ so $g_i=g_k$ contradicting group def\
+**abelian group:** multiplication table is symmetric ($M_{ab}=M_{ba}$)\
+inverse of element in group is just location of Identity element in multiplication table\
+order of element $g$ in group is num times multiply by itself to get back to $g$
 
 #### Subgroups
-subset of elements in $G$ that form their own group. all have identity $I$\
+$S$: subset of elements in $G$ that form their own group. all have identity $I$\
 each group $G$ has at least 2 subgroups, one that's just $I$ and one that's all elements in $G$.\
 if $|G|=n$, all subgroups have number of elements equal to the factors of $n$\
 find subgroups by iterating through all options of factor length, trim multiplication table to match, check if it's a valid group\
+**Lagrange's Theorem:** Order of subroup $S$ always divisor of order of group $G$\
+$|G|=[G:H] \cdot |H|$ where $[G:H]=$ num distinct cosets (**index** of $H$ in $G$)
 
 #### Coset
-If $g\in G$ are all elements in the group $G$, and $h\in H$ are all elements in the subgroup $H$ of $G$, then the "left coset of H" is $GH$, or all elements in $G$ multiplied by all elements in $H$. The right coset is just $HG$. 
+If $g\in G$ are all elements in the group $G$, and $h\in H$ are all elements in the subgroup $H$ of $G$, then the "left coset of H" is $GH$, or all elements in $G$ multiplied by all elements in $H$. The right coset is just $HG$. \
 
 #### Conjugacy class
 $a,b\in G$ are "conjugate" if, for some $X\in G$, $b=XaX^{-1}$. all together make a "conjugacy class". Identity $E$ always in conjugacy class by itself \
 if you map $a$ using $x$, you get $b$. \
-In code, find inverses of all $g \in G$, then loop through all $h\in G, G[i]=h$. then for each $f\in G, G[j]=f$, append `table[j][table[i][inv[j]]]` \
-inverse of element in group is just location of Identity element in multiplication table
+In code, find inverses of all $g \in G$, then loop through all $h\in G, G[i]=h$. then for each $f\in G, G[j]=f$, append `table[j][table[i][inv[j]]]` 
 
 #### Self-conjugate (normal) subgroups
 a self-conjugate subgroup $H$ of $G$ is a subgroup of $G$ where $\forall h \in H, H[i]=h$, $G_{j,m}\in H$ where $m=G_{i,j^{-1}}$ TODO HERE \
@@ -56,7 +57,8 @@ For each vector $v \in$ `vectors`: \
 1. Normalize $v \rightarrow \hat{v}$ 
 2. Subtract out the existing subspace: $u = \hat{v} - P\hat{v}$ 
 3. If $||u|| = 0$, continue (vector is already in the span)
-4. If $||u|| > 0$, normalize $u \rightarrow \hat{u}$, add $\hat{u}$ to $Q$, update $P += \hat{u} \otimes \hat{u}^{\dagger}$
+4. If $||u|| > 0$, normalize $u \rightarrow \hat{u}$, add $\hat{u}$ to $Q$, update $P += \hat{u} \otimes \hat{u}^{\dagger}$\
+$P=\sum_{i=1}^{n2}v_i v_i^{\dagger}$
 
 #### Orthogonal Complement
  $C = \{v \in V : \langle u, v \rangle = 0, \forall u \in U\}$. \
@@ -70,20 +72,21 @@ $P^{\dagger}$ = projector onto orthogonal compliment **unique**
 First find Row space of $M$, which is conjugate of $M$'s rows \
 Then find orthogonal compliment of new matrix
 
-#### Similarity transforms
+#### Similarity transforms (Schur's Lemma)
 matrix $S^{n\times n}$ similar to $R^{m \times m}$ if $\exists Q$ such that $SQ=QR$. $Q$ is change of basis matrix between $S$ and $R$. \
 $SQ-QR=0$\
 $\sum_j S_{ij} Q_{jk} - \sum_{\ell} Q_{i\ell} R_{\ell k}=0$ \
 $\sum_{j\ell} (S_{ij}\sigma_{k\ell}-\sigma_{ij}R_{\ell k}) Q_{j\ell}=0$ can re-arrange since working with scalars instead of matrices so commute \
 $((S\otimes I_n)-(I_m \otimes R^T))\text{vec}(Q) =0$ since $R_{\ell k} = (R^T)_{k\ell}$ \
 $(S\otimes I_n)-(I_m \otimes R^T) = P^{mn \times mn}$  \
-Find nullspace of $P$, giving vectors of length $mn$\
+Find nullspace of $P$, giving vectors $v_i$ of length $mn$\
 reshape to get $Q^{m\times n}$ \
-If $S,R$ lists of matrices, find $P$ for every combo of $S,R$, then stack vertically to get big $P$ then get nullspace (coded in `infer_change_of_basis`)
+If $S,R$ lists of matrices, find $P$ for every combo of $S,R$, then stack vertically to get big $P$ then get nullspace (coded in `infer_change_of_basis`)\
+if $Q$ exists b/w two reps of $G$, neither are irreps unless $Q$ is 1 constant matrix (part 2) TODO: expand
 
 
 #### Representations of groups
-Rep $D$ of group $G, |G|=n$ is a list of length $n$ of matrices. Shown as $D : G \rightarrow V \times V$ \\
+Rep $D$ of group $G, |G|=n$ is a list of length $n$ of matrices. Shown as $D : G \rightarrow V \times V$ \
 $D$ is a representation of $G$ if, $\forall i,j \in [0,n], D[i] \cdot D[j] = D[G[i,j]]$ 
 
 #### Isomorphic
@@ -103,7 +106,8 @@ Direct sum of two reps $D,R$, or $D \oplus R = \begin{bmatrix} D & 0 \\ 0 & R \e
 #### Irreducible Representation of a Group
 rep $D$ of $G$ is irreducible if $\nexists U$ unitary matrix such that $U d U^{-1}$ is block diagonal for all $d \in D$. Check this by finding $Q$ in $dQ=Qd$ for all $d\in D$. $|D|=n$, and $D_i^{\ell \times \ell}$\
 Sum of all dim of all irreps for $G$ is $n$, or $\sum_{i=0}^{\text{num irreps}}\ell_i^2=n$\
-So if I `infer_change_of_basis(D,D)` returns $Q$ that are all constant matrices ($Q=I*k$ where $k$ is scalar), $D$ is an irrep.  
+So if I `infer_change_of_basis(D,D)` returns $Q$ that are all constant matrices ($Q=I*k$ where $k$ is scalar), $D$ is an irrep.  \
+Number of irreps = number of conjugacy classes
 
 
 #### Regular Representation
@@ -118,6 +122,7 @@ for $g_i\neq E$, $\chi^{R_{\text{reg}}}(g_i)=0$. $R(E)=I_n$, so $\chi^R(E)=n$
 
 #### Wonderful Orthogonality Theorem (WOT)
 (arrow going through squares of matrices for irreps)\
+(proof uses rearrangement theorem for $SR$, then Schur's lemma)\
 $\sum_{i=0}^n (\Gamma_a(g_i))_{\mu\nu} (\Gamma_b(g_i^{-1}))_{\mu'\nu'} = \frac{n}{\ell_a}\delta_{\Gamma_a\Gamma_b}\delta_{\mu\mu'}\delta_{\nu\nu'}$ ($=\sum_{i=0}^n (\Gamma_a(g_i))_{\mu\nu} \left[(\Gamma_b(g_i))_{\mu'\nu'}\right]^*$ if $\Gamma$ unitary)\
 $\ell_a=|\Gamma_a(g_i)|$\
 all $(\mu,\nu)$ coordinates in matrices in irrep $\Gamma_a$ make a vector, which is orthogonal to the same vector in $\Gamma_b$ as long as $a\neq b$
@@ -135,6 +140,7 @@ if $B=\{b_1,b_2,b_3,...b_m\}$ is list of conjugacy classes in $G$, and $g_{b_ij}
 
 where $w=|b_3|$ num elements in conjugacy class $b_3$\
 Each row/column must be orthogonal to each other by WOT for characters (1 and 2 respectively)\
+Conjugacy class $C_{nv}\rightarrow n = $ rotations to beginning, $v = $ includes mirrors (non-abelian)\
 $\Gamma_1$ "trivial" or "scalar" rep, and $\chi^{(\Gamma_1)}(g_{b_i})=1$\
 $b_1=I$, so $\chi^{(\Gamma_j)}(g_{b_1})=$ dimension of irrep\
 **Pseudoscalar** irrep that = $\Gamma^{\text{scalar/trivial}}$ except for mirror conjugacy classes ($\sigma$), where character is negative \
@@ -151,10 +157,20 @@ any rep can be decomposed into irreps\
 Num times irrep $\Gamma_a$ appears in representation $D$ with character $\chi^{(D)}$ is:\
 $a_a = \frac{1}{n}\sum_{j=0}^m N_j \left[\chi^{(\Gamma_a)}(g_{b_j})\right]^* \chi^{(D)}(g_{b_j}) =  \frac{1}{n}\sum_{i=0}^n \left[\chi^{(\Gamma_a)}(g_{i})\right]^* \chi^{(D)}(g_i)$\
 
+#### Vibrational Modes
+"Internal degrees of freedom of object"\
+each molecule has 3 modes: Rotation ($P^{\text{rot}}$), translation ($P^{\text{tranzs}}$), vibration ($P^{\text{vib}}$). Their projectors are: \
+$P^{\text{vib}} = I_{3n} - P^{\text{trans}} - P^{\text{rot}}$\
+$[P^{\text{trans}}]^{3n\times 3n} = |t_x\rangle \langle t_x| + |t_y\rangle \langle t_y| + |t_z\rangle \langle t_z|$ all atoms moved by the same displacement\
+$t_x = \frac{1}{\sqrt{n}}(\underset{\text{atom 1}}{1,0,0},\underset{\text{atom 2}}{1,0,0},...,\underset{\text{atom }n}{1,0,0})$\
+$[P^{\text{rot}}]^{\times} = \sum_{i=1}^{d_{\text{rot}}} \hat{d}_i \hat{d}_i^T$ where $d_{\text{rot}}=3$ for nonlinear molecules and 2 for linear. \
+A tiny rotation about axis $\hat{a}$ displaces $i$ at position $r_i$ relative to center of mass by $\delta r_i = \hat{a} \times r_i$\
+$d_{m\in\{x,y,x\}}^{1\times 3n} = \begin{bmatrix}\hat{e}_m \times r_1 \\ \vdots \\ \hat{e}_m \times r_n\end{bmatrix}$ where $r_i$ is the location of the $i$'th atom. $d_m$ not orthogonal to each other\
+Gram-Schmidt orthonormalize $d$, and outer-product it with itself, then add $P_x + P_y + P_z$\
+**Permutation Representation:** $\Gamma^{\text{a.s.}}(g_i)$ for each $g_i$, apply $[\Gamma^{\text{vec}}]^{3\times 3}$ to each vertex position $(x,y,z)$ and check which vertex it lands on. \
 
-Number of irreps = number of conjugacy classes
 
-If I can, I should try to summarize the strategy I took for each homework function in as short as possible language (knowing I'll be able to see the docstrings)
+$[\Gamma^{\text{vib}}]^{3n-6\times 1} = [\Gamma^{\text{a.s.}}]^{n\times n} \otimes [\Gamma^{\text{vec}}]^{3\times 3} - [\Gamma^{\text{trans}}]^{3\times 1} - [\Gamma^{\text{rot}}]^{3\times 1}$ 
 
 #### Special types of matrices
 
