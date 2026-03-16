@@ -1,15 +1,14 @@
 - Hermitian matrices
-- properties of Unitary matrices
-	- $U^{\dagger}U = UU^{\dagger} = cI$ constant matrix w scalar $c$
-	- $\langle U x | U y \rangle = \langle x | y \rangle$
-	- Diagonalizable, or $\exists V, U=VDV^{\dagger}$ where $V$ is Unitary and $D$ is both diagonal and unitary
-	- Eigenspaces of $U$ are orthogonal
-	- $U^{-1}=U^{\dagger}=[U^*]^T$ 
 - full rank matrices
-- matrix multiplication
-- vectors $v,u$ are orthogonal if $\langle v | u \rangle = 0$ 
-- **orthogonal compliment** of $W$ 
-- Tensor Product: for lists of matrices, $\overset{\text{kr}}{\otimes}$ each matric, then stack
+- matrix multiplication\
+**Unitary matrices**\
+$U^{\dagger}U = UU^{\dagger} = cI$ constant matrix w scalar $c$\
+$\langle U x | U y \rangle = \langle x | y \rangle$ **|** $U^{-1}=U^{\dagger}=[U^*]^T$ \
+Diagonalizable, or $\exists V, U=VDV^{\dagger}$ where $V$ is Unitary and $D$ is both diagonal and unitary
+Eigenspaces of $U$ are orthogonal \
+vectors $v,u$ are orthogonal if $\langle v | u \rangle = 0$ \
+**orthogonal compliment** of $W$ \
+Tensor Product: for lists of matrices, $\overset{\text{kr}}{\otimes}$ each matric, stack
 
 #### Groups
 Set of elements $G=\{g_0,...,g_n\}$\
@@ -19,15 +18,15 @@ closed (all vals in multi table $<n$)\
 create group $G$ from subset of elements ($g,h$) by calculating $gh$ until you run out\
 rearrangement theorem: each row/column of multi table contains each element once (sudoku table rules). \
 Proof: if $g_i=g_j^{-1} X$, then $g_j g_i=g_j g_j^{-1} X=X$ (all $g$ contained). If $X=g_j g_i=g_j g_k$ then $g_j^{-1}g_j g_i=g_j^{-1}g_k$ so $g_i=g_k$ contradicting group def\
-**abelian group:** multiplication table is symmetric ($M_{ab}=M_{ba}$)\
-inverse of element in group is just location of Identity element in multiplication table\
-order of element $g$ in group is num times multiply by itself to get back to $g$
+**abelian group:** multi table is symmetric ($M_{ab}=M_{ba}$)\
+inverse of element in group is just location of Identity element in multi table\
+order of element $g\in G$ is num times multiply by itself to get back to $g$
 
 #### Subgroups
 $S$: subset of elements in $G$ that form their own group. all have identity $I$\
 each group $G$ has at least 2 subgroups, one that's just $I$ and one that's all elements in $G$.\
 if $|G|=n$, all subgroups have number of elements equal to the factors of $n$\
-find subgroups by iterating through all options of factor length, trim multiplication table to match, check if it's a valid group\
+find subgroups by iterating through all options of factor length, trim multi table to match, check if it's a valid group\
 **Lagrange's Theorem:** Order of subroup $S$ always divisor of order of group $G$\
 $|G|=[G:H] \cdot |H|$ where $[G:H]=$ num distinct cosets (**index** of $H$ in $G$)
 
@@ -70,8 +69,8 @@ $C$ = list of orthonormal vectors spanning orthogonal compliment. **not unique**
 $P^{\dagger}$ = projector onto orthogonal compliment **unique**
 
 #### Nullspace
-First find Row space of $M$, which is conjugate of $M$'s rows \
-Then find orthogonal compliment of new matrix
+First find Row space of $M$, which is conjugate of $M$'s rows,
+Then find orthogonal compliment of new matrix w/Gram Schmidt
 
 #### Similarity transforms (Schur's Lemma)
 matrix $S^{n\times n}$ similar to $R^{m \times m}$ if $\exists Q$ such that $SQ=QR$. $Q$ is change of basis matrix between $S$ and $R$. \
@@ -92,7 +91,7 @@ $D$ is a representation of $G$ if, $\forall i,j \in [0,n], D[i] \cdot D[j] = D[G
 
 #### Isomorphic
 Two reps $D,R$ are isomorphic if $\exists Q$ that satisfies similarity transform $DQ=QR$, or if `len(infer_change_of_basis(D,R))`>0\
-**groups** might be isomorphic to each other if there's the same number of elements in each 'order'. **Are** isomorphic if a reordering of $g\in G$ results in $H$'s multiplication table. \
+**groups** might be isomorphic to each other if there's the same number of elements in each 'order'. **Are** isomorphic if a reordering of $g\in G$ results in $H$'s multi table. \
 **isomorphisms** between groups are mappings, so $g_1\rarr h_4,...$ for all $g,h$\
 **homomorphism** maps all values in $G$ to smaller set of values in $H$, so $g_1\rarr h_4, g_3\rarr h_4$\
 Tables: relabel the columns/rows, get a 'mapping'\
@@ -180,7 +179,8 @@ If doing character table, remember $\text{trace}(a \otimes b) = \text{trace}(a)\
 Find $Q^{3m \times n_{\text{vib}}}$ orthonormal basis for column space of $P^{\text{vib}}$ w/gram-schmidt \
 $[\Gamma^{\text{vib}}(g_i)]^{n_{\text{vib}}\times n_{\text{vib}}} = Q^T(g_i)[[\Gamma^{\text{a.s.}}(g_i)]^{m\times m} \otimes [\Gamma^{\text{vec}}(g_i)]^{3\times 3}]^{3m \times 3m} Q(g_i)$
 
-$[\Gamma^{\text{vib}}]^{3m-6\times 1} = [\Gamma^{\text{a.s.}}]^{m\times m} \otimes [\Gamma^{\text{vec}}]^{3\times 3} - [\Gamma^{\text{trans}}]^{3\times 1} - [\Gamma^{\text{rot}}]^{3\times 1}$ 
+$[\Gamma^{\text{vib}}]^{3m-6\times 1} = [\Gamma^{\text{a.s.}}]^{m\times m} \otimes [\Gamma^{\text{vec}}]^{3\times 3} - [\Gamma^{\text{trans}}]^{3\times 1} - [\Gamma^{\text{rot}}]^{3\times 1}$ \
+vib mode 'transforms as' irrep. when application of $g\in G$ to vib mode gives same characters as irrep. 1=preserved, else=not. if dim of irrep $>1$, compare to conj class where char has same dim.
 
 #### Counting irrep multiplicities 
 $n_i = \langle \chi_i | \chi_i \rangle =$
