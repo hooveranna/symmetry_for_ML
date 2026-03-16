@@ -9,6 +9,7 @@
 - matrix multiplication
 - vectors $v,u$ are orthogonal if $\langle v | u \rangle = 0$ 
 - **orthogonal compliment** of $W$ 
+- Tensor Product: for lists of matrices, $\overset{\text{kr}}{\otimes}$ each matric, then stack
 
 #### Groups
 Set of elements $G=\{g_0,...,g_n\}$\
@@ -81,23 +82,24 @@ $((S\otimes I_n)-(I_m \otimes R^T))\text{vec}(Q) =0$ since $R_{\ell k} = (R^T)_{
 $(S\otimes I_n)-(I_m \otimes R^T) = P^{mn \times mn}$  \
 Find nullspace of $P$, giving vectors $v_i$ of length $mn$\
 reshape to get $Q^{m\times n}$ \
-If $S,R$ lists of matrices, find $P$ for every combo of $S,R$, then stack vertically to get big $P$ then get nullspace (coded in `infer_change_of_basis`)\
-if $Q$ exists b/w two reps of $G$, neither are irreps unless $Q$ is 1 constant matrix (part 2) TODO: expand
+If $S,R$ lists of matrices, find $Q,P$ for every combo of $S,R$, then stack vertically to get big $P$ then get nullspace (coded in `infer_change_of_basis`)\
+if $Q$ exists b/w two reps of $G$, neither are irreps unless $Q$ is 1 constant matrix \(part 2) for irreps TODO: expand
 
 
 #### Representations of groups
-Rep $D$ of group $G, |G|=n$ is a list of length $n$ of matrices. Shown as $D : G \rightarrow V \times V$ \
+how elements of teh group $G$ acts on vector space $V$. Homomorphisms. Rep $D$ of group $G, |G|=n$ is a list of length $n$ of matrices. Shown as $D : G \rightarrow V \times V$ \
 $D$ is a representation of $G$ if, $\forall i,j \in [0,n], D[i] \cdot D[j] = D[G[i,j]]$ 
 
 #### Isomorphic
 Two reps $D,R$ are isomorphic if $\exists Q$ that satisfies similarity transform $DQ=QR$, or if `len(infer_change_of_basis(D,R))`>0\
 **groups** might be isomorphic to each other if there's the same number of elements in each 'order'. **Are** isomorphic if a reordering of $g\in G$ results in $H$'s multiplication table. \
-**isomorphisms** between groups are that mappings, so $g_1\rarr h_4,...$ for all $g,h$\
+**isomorphisms** between groups are mappings, so $g_1\rarr h_4,...$ for all $g,h$\
 **homomorphism** maps all values in $G$ to smaller set of values in $H$, so $g_1\rarr h_4, g_3\rarr h_4$\
 Tables: relabel the columns/rows, get a 'mapping'\
-Reps: chainging the basis of rep, get a 'change of basis matrix
+Reps: changing the basis of rep, get a 'change of basis matrix
 
 #### Homomorphism
+comparing 2 groups with each other with some function/operation\
 $\rho(g_i)\rho(g_j)=rho(g_ig_j)$ or $\text{rep}(g_i)\text{rep}(g_j)=\text{rep}(G(i,j))$
 
 #### Direct Sum
@@ -107,7 +109,8 @@ Direct sum of two reps $D,R$, or $D \oplus R = \begin{bmatrix} D & 0 \\ 0 & R \e
 rep $D$ of $G$ is irreducible if $\nexists U$ unitary matrix such that $U d U^{-1}$ is block diagonal for all $d \in D$. Check this by finding $Q$ in $dQ=Qd$ for all $d\in D$. $|D|=n$, and $D_i^{\ell \times \ell}$\
 Sum of all dim of all irreps for $G$ is $n$, or $\sum_{i=0}^{\text{num irreps}}\ell_i^2=n$\
 So if I `infer_change_of_basis(D,D)` returns $Q$ that are all constant matrices ($Q=I*k$ where $k$ is scalar), $D$ is an irrep.  \
-Number of irreps = number of conjugacy classes
+Number of irreps = number of conjugacy classes\
+2 irreps are not equivalent if they don't have the same characters
 
 
 #### Regular Representation
@@ -158,19 +161,29 @@ Num times irrep $\Gamma_a$ appears in representation $D$ with character $\chi^{(
 $a_a = \frac{1}{n}\sum_{j=0}^m N_j \left[\chi^{(\Gamma_a)}(g_{b_j})\right]^* \chi^{(D)}(g_{b_j}) =  \frac{1}{n}\sum_{i=0}^n \left[\chi^{(\Gamma_a)}(g_{i})\right]^* \chi^{(D)}(g_i)$\
 
 #### Vibrational Modes
-"Internal degrees of freedom of object"\
+"Internal degrees of freedom of object with $m$ atoms" aka changing bond lengths & angles\
+look at all DoF, $-$ translation & rotation\
 each molecule has 3 modes: Rotation ($P^{\text{rot}}$), translation ($P^{\text{tranzs}}$), vibration ($P^{\text{vib}}$). Their projectors are: \
-$P^{\text{vib}} = I_{3n} - P^{\text{trans}} - P^{\text{rot}}$\
-$[P^{\text{trans}}]^{3n\times 3n} = |t_x\rangle \langle t_x| + |t_y\rangle \langle t_y| + |t_z\rangle \langle t_z|$ all atoms moved by the same displacement\
-$t_x = \frac{1}{\sqrt{n}}(\underset{\text{atom 1}}{1,0,0},\underset{\text{atom 2}}{1,0,0},...,\underset{\text{atom }n}{1,0,0})$\
+$P^{\text{vib}} = I_{3m} - P^{\text{trans}} - P^{\text{rot}}$\
+$[P^{\text{trans}}]^{3m\times 3m} = |t_x\rangle \langle t_x| + |t_y\rangle \langle t_y| + |t_z\rangle \langle t_z|$ all atoms moved by the same displacement\
+$t_x = \frac{1}{\sqrt{m}}(\underset{\text{atom 1}}{1,0,0},\underset{\text{atom 2}}{1,0,0},...,\underset{\text{atom }n}{1,0,0})$\
 $[P^{\text{rot}}]^{\times} = \sum_{i=1}^{d_{\text{rot}}} \hat{d}_i \hat{d}_i^T$ where $d_{\text{rot}}=3$ for nonlinear molecules and 2 for linear. \
 A tiny rotation about axis $\hat{a}$ displaces $i$ at position $r_i$ relative to center of mass by $\delta r_i = \hat{a} \times r_i$\
-$d_{m\in\{x,y,x\}}^{1\times 3n} = \begin{bmatrix}\hat{e}_m \times r_1 \\ \vdots \\ \hat{e}_m \times r_n\end{bmatrix}$ where $r_i$ is the location of the $i$'th atom. $d_m$ not orthogonal to each other\
+$d_{u\in\{x,y,x\}}^{1\times 3m} = \begin{bmatrix}\hat{e}_u \times r_1 \\ \vdots \\ \hat{e}_u \times r_n\end{bmatrix}$ where $r_i$ is the location of the $i$'th atom. $d_u$ not orthogonal to each other\
 Gram-Schmidt orthonormalize $d$, and outer-product it with itself, then add $P_x + P_y + P_z$\
-**Permutation Representation:** $\Gamma^{\text{a.s.}}(g_i)$ for each $g_i$, apply $[\Gamma^{\text{vec}}]^{3\times 3}$ to each vertex position $(x,y,z)$ and check which vertex it lands on. \
+$[\Gamma^{\text{vec}}]^{3\times 3}$: all possible \
+**Permutation Representation:** $\Gamma^{\text{a.s.}}(g_i)$ for each $g_i$, matrix multiply $[\Gamma^{\text{vec}}]^{3\times 3}$ with each vector position $r_i(x,y,z)$ and check which vertex it lands on. \
+$[\Gamma^{\text{a.s.}}]^{n\times m \times m}\rightarrow[\Gamma^{\text{a.s.}}(g_i)]^{m \times m}$ if $\Gamma^{\text{vec}}(g_i) r_j = r_k$, $\Gamma^{\text{a.s.}}(g_i)[k,j]=1$, else 0\
+**Vibration Representation**: \
+$[\Gamma^{\text{a.s.}} \overset{\text{kr}}{\otimes}\Gamma^{\text{vec}}]^{n\times 3m \times 3m} = \Gamma^{\text{a.s.}}(g_i) \overset{\text{kr}}{\otimes}\Gamma^{\text{vec}}(g_i) \forall g_i \in G$ (aka tensor product them together)\
+If doing character table, remember $\text{trace}(a \otimes b) = \text{trace}(a)\text{trace}(b)$\
+Find $Q^{3m \times n_{\text{vib}}}$ orthonormal basis for column space of $P^{\text{vib}}$ w/gram-schmidt \
+$[\Gamma^{\text{vib}}(g_i)]^{n_{\text{vib}}\times n_{\text{vib}}} = Q^T(g_i)[[\Gamma^{\text{a.s.}}(g_i)]^{m\times m} \otimes [\Gamma^{\text{vec}}(g_i)]^{3\times 3}]^{3m \times 3m} Q(g_i)$
 
+$[\Gamma^{\text{vib}}]^{3m-6\times 1} = [\Gamma^{\text{a.s.}}]^{m\times m} \otimes [\Gamma^{\text{vec}}]^{3\times 3} - [\Gamma^{\text{trans}}]^{3\times 1} - [\Gamma^{\text{rot}}]^{3\times 1}$ 
 
-$[\Gamma^{\text{vib}}]^{3n-6\times 1} = [\Gamma^{\text{a.s.}}]^{n\times n} \otimes [\Gamma^{\text{vec}}]^{3\times 3} - [\Gamma^{\text{trans}}]^{3\times 1} - [\Gamma^{\text{rot}}]^{3\times 1}$ 
+#### Counting irrep multiplicities 
+$n_i = \langle \chi_i | \chi_i \rangle =$
 
 #### Special types of matrices
 
@@ -186,6 +199,16 @@ Row space: $Mx \neq 0$, dim $r$, conjugated rows of $M$
 Nullspace: $Mx = 0$, dim $n-r$, orthogonal compliment of row space
 Column space: $M^{\dagger}x=0$ dim $r$
 Left nullspace: $M^{\dagger}y=0$ dim $m-r$
+
+## Notes From Review Session
+
+#### Projection Matrix
+$P^V$ go from generic vector to closest vector in subspace $V$, = $w w^T$ if $w$ in orthonormal basis for $V$.
+
+**Schur's lemma part 1 is most important**
+if matrix $M$ commutes with all r in rep, either m is constant or rep is reducible.\
+
+
 
 
 ### Guidelines from course
