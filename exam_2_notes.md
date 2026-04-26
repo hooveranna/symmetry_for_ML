@@ -40,15 +40,15 @@
   - `lie.infer_irreps_from_tensor_products`
   - `lie.tensor_product`
   - tensor product selection rule
-- Question 3: $SU(2)$
-  - Lie groups 
+- Question 3: $SU(2)$ (went through, still need to go over code (` infer_irreps_from_tensor_products`))
+  - Lie groups (went through)
   - Lie Group generators
   - Lie Algebra
   - `lie.are_isomorphic`
 
 ## 2024 Exam:
 - Question 1: Steerable Convolution (went through, questions)
-- Question 2: $SO(4)$, Lie Groups
+- Question 2: $SO(4)$, Lie Groups (went through, need to write out `decompose_rep_into_irreps`)
 - Question 3: Spherical Harmonics
 
 ## 2025 Exam:
